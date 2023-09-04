@@ -1,6 +1,6 @@
 <div *ngIf="flag" class="container">
-    <input (change)="selectFile($event)" type="file">
-    <button [disabled]="btnToggle" (click)="uploadFile()" mat-raised-button color="primary">Upload</button>
+    <input multiple (change)="selectFile($event)" type="file" accept=".xlsx">
+    <button [disabled]="btnToggle" (click)="uploadFile()"  mat-raised-button color="primary">Upload</button>
 </div>
 
 <div *ngIf="!flag">

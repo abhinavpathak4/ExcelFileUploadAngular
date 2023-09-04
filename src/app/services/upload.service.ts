@@ -1,24 +1,23 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Products } from '../interfaces/products';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
 
+  subject$ = new Subject<void>();
   URL = "http://localhost:8081/product";
   constructor(private http : HttpClient) { }
 
-  uploadData(formData : FormData){
-     this.http.post<Products[]>(this.URL+"/upload", formData).subscribe(
-      ((data)=>{
-        console.log(data);
-      }),
-      (error:HttpErrorResponse) => {
-        console.log(error);
-      }   
-    )
+  getSubject$() {
+    return this.subject$.asObservable();
+  }
+
+  uploadData(formData : FormData) : Observable<HttpResponse<String>>{
+    return this.http.post(this.URL+"/upload", formData, {observe : 'response', responseType: 'text'});
   }
 
   getData(){
